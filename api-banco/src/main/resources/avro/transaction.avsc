@@ -1,0 +1,13 @@
+{
+  "type": "record",
+  "name": "TransactionAvro",
+  "namespace": "com.example.transfer.schema",
+  "fields": [
+    {"name": "id", "type": "string"},
+    {"name": "pixKeySender", "type": "string"},
+    {"name": "pixKeyReceiver", "type": "string"},
+    {"name": "value", "type": "float"},
+    {"name": "status", "type": "boolean"},
+    {"name": "processed", "type": "boolean"}
+  ]
+}
