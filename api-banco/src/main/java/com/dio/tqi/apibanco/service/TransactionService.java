@@ -1,19 +1,13 @@
 package com.dio.tqi.apibanco.service;
 
-import com.dio.tqi.apibanco.entity.Transaction;
+import com.dio.tqi.apibanco.model.Transaction;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.repository.TransactionRepository;
 import com.example.transfer.schema.TransactionAvro;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.context.annotation.Bean;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
-
-import java.util.function.Function;
 
 
 @Service

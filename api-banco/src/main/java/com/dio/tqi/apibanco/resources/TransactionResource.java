@@ -2,7 +2,7 @@ package com.dio.tqi.apibanco.resources;
 
 import com.dio.tqi.apibanco.dto.request.TransactionDTORequest;
 import com.dio.tqi.apibanco.dto.response.TransactionDTOResponse;
-import com.dio.tqi.apibanco.entity.Transaction;
+import com.dio.tqi.apibanco.model.Transaction;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.mapper.TransactionMapper;
 import com.dio.tqi.apibanco.service.TransactionService;

@@ -1,6 +1,6 @@
-package com.dio.tqi.apibanco.entity;
+package com.dio.tqi.apibanco.model;
 
-import com.dio.tqi.apibanco.enums.KeyPixTypes;
+import com.dio.tqi.apibanco.enums.PixKeyTypes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +22,7 @@ public class User{
     private String email;
     private String password;
     private String bank;
-    private List<KeyPixTypes> keyPix;
+    private List<PixKeyTypes> keyPix;
 
 }
 

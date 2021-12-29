@@ -2,7 +2,7 @@ package com.dio.tqi.apibanco.mapper;
 
 import com.dio.tqi.apibanco.dto.request.TransactionDTORequest;
 import com.dio.tqi.apibanco.dto.response.TransactionDTOResponse;
-import com.dio.tqi.apibanco.entity.Transaction;
+import com.dio.tqi.apibanco.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

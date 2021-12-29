@@ -1,6 +1,6 @@
 package com.dio.tqi.apibanco.data;
 
-import com.dio.tqi.apibanco.entity.User;
+import com.dio.tqi.apibanco.model.User;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

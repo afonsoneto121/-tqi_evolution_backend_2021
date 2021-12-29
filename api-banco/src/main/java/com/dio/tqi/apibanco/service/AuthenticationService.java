@@ -1,11 +1,10 @@
 package com.dio.tqi.apibanco.service;
 
 import com.dio.tqi.apibanco.data.LoginData;
-import com.dio.tqi.apibanco.entity.User;
+import com.dio.tqi.apibanco.model.User;
 import com.dio.tqi.apibanco.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

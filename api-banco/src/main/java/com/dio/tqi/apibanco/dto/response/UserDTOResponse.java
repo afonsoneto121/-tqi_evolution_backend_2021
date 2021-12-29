@@ -1,9 +1,8 @@
 package com.dio.tqi.apibanco.dto.response;
 
-import com.dio.tqi.apibanco.enums.KeyPixTypes;
+import com.dio.tqi.apibanco.enums.PixKeyTypes;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 
@@ -14,5 +13,5 @@ public class UserDTOResponse {
     private String name;
     private String email;
     private String bank;
-    private List<KeyPixTypes> keyPix;
+    private List<PixKeyTypes> keyPix;
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum KeyPixTypes {
+public enum PixKeyTypes {
     PHONE("celular"),
     EMAIL("email"),
     CPF("cpf"),

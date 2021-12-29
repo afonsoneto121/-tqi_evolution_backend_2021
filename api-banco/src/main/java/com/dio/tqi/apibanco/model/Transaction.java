@@ -1,4 +1,4 @@
-package com.dio.tqi.apibanco.entity;
+package com.dio.tqi.apibanco.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

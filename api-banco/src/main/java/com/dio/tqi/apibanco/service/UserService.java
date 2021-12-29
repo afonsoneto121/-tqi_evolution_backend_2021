@@ -1,6 +1,6 @@
 package com.dio.tqi.apibanco.service;
 
-import com.dio.tqi.apibanco.entity.User;
+import com.dio.tqi.apibanco.model.User;
 import com.dio.tqi.apibanco.exception.UserAlreadyExist;
 import com.dio.tqi.apibanco.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
