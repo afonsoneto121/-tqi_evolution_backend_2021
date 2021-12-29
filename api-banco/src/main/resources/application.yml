@@ -1,4 +1,10 @@
-server.port: 8085
+server.port: ${PORT:8085}
+jwt:
+  secret: ${JWT_SECRET:43w11jzJHUOspQya0%2fd1Qg%3d%3d5by4Big0bkeRbAm54MN2ZA%3d%3d}
+  expiration: ${JWT_EXPIRATION:1200000}
+api:
+  bank:
+    name: ${NAME:Banco A}
 spring:
   data:
     mongodb:
