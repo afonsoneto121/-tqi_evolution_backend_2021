@@ -2,6 +2,7 @@ package com.dio.tqi.apibanco.service;
 
 import com.dio.tqi.apibanco.dto.Message;
 import com.dio.tqi.apibanco.dto.request.PixKeyDTORequest;
+import com.dio.tqi.apibanco.dto.response.StatusKeyDTOResponse;
 import com.dio.tqi.apibanco.entity.PixKey;
 import com.dio.tqi.apibanco.exception.KeyAlreadyExists;
 import com.dio.tqi.apibanco.exception.NotFound;
@@ -54,11 +55,8 @@ public class UserService {
     }
 
     public Message addPixKey(String idUser, PixKeyDTORequest dtoRequest, HttpServletRequest request) throws KeyAlreadyExists, NotFound {
-        String token = getTokenFromHeader(request);
         String strResponse = "OK";
-        if (!verifyIfUserIsAuthorized(token, idUser)) {
-            throw new NotAuthorizedException("User not authorized");
-        }
+        authorizedUser(request,idUser);
         ArrayList<PixKey> keys = extractParamsSelected(dtoRequest);
         Set<PixKey> validKeys = extractValidKeys(keys);
 
@@ -80,11 +78,17 @@ public class UserService {
 
         Message messageResponse = Message.builder()
                 .message(strResponse)
-                .other("Verify status in GET /api/v1/users/keys/"+String.join(",",collect))
+                .other("Verify status in GET /api/v1/users/{id}/keys/"+String.join(",",collect))
                 .build();
         return messageResponse;
     }
+    private void authorizedUser(HttpServletRequest request, String idUser) {
+        String token = getTokenFromHeader(request);
+        if (!verifyIfUserIsAuthorized(token, idUser)) {
+            throw new NotAuthorizedException("User not authorized");
+        }
 
+    }
     private ArrayList<PixKey> extractParamsSelected(PixKeyDTORequest dtoRequest) {
         if (dtoRequest.getKeys() != null) {
             return dtoRequest.getKeys();
@@ -124,4 +128,23 @@ public class UserService {
 
         return token.substring(7, token.length());
     }
+
+    public List<StatusKeyDTOResponse> statusKeys(String id, List<String> keys, HttpServletRequest request) {
+        authorizedUser(request,id);
+        Optional<User> optionalUser = repository.findById(id);
+        User user = optionalUser.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        List<String> userKeys = user.getPixKey().stream().map(value -> value.getKey()).collect(Collectors.toList());
+        return keys.stream().map((String key) -> {
+            StatusKeyDTOResponse status = new StatusKeyDTOResponse(key);
+            if(userKeys.contains(key)) {
+                status.setStatus(true);
+            } else {
+                status.setStatus(false);
+            }
+
+            return status;
+        }).collect(Collectors.toList());
+    }
+
 }

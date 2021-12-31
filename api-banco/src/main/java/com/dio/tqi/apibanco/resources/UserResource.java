@@ -3,6 +3,7 @@ package com.dio.tqi.apibanco.resources;
 import com.dio.tqi.apibanco.dto.Message;
 import com.dio.tqi.apibanco.dto.request.PixKeyDTORequest;
 import com.dio.tqi.apibanco.dto.request.UserDTORequest;
+import com.dio.tqi.apibanco.dto.response.StatusKeyDTOResponse;
 import com.dio.tqi.apibanco.dto.response.UserDTOResponse;
 import com.dio.tqi.apibanco.exception.KeyAlreadyExists;
 import com.dio.tqi.apibanco.exception.NotFound;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -42,5 +44,12 @@ public class UserResource {
         return ResponseEntity.ok(message);
     }
 
+    @GetMapping("/{id}/keys/{keys}")
+    public ResponseEntity<List<StatusKeyDTOResponse>> statusKeys(@PathVariable String id,
+                                                           @PathVariable List<String> keys,
+                                                           HttpServletRequest request) {
+        List<StatusKeyDTOResponse> responses = service.statusKeys(id, keys, request);
+        return ResponseEntity.ok(responses);
+    }
 
 }
