@@ -45,7 +45,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                                             FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         LoginData login = (LoginData) authResult.getPrincipal();
-        String token = tokenService.generateToken(login);
+
+        String token = tokenService.generateToken(login.getUser().get());
         TokenDTOResponse tokenObj = TokenDTOResponse.builder()
                 .type("Bearer")
                 .token(token)

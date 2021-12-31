@@ -4,6 +4,8 @@ import com.dio.tqi.apibanco.dto.Message;
 import com.dio.tqi.apibanco.dto.request.PixKeyDTORequest;
 import com.dio.tqi.apibanco.dto.request.UserDTORequest;
 import com.dio.tqi.apibanco.dto.response.UserDTOResponse;
+import com.dio.tqi.apibanco.exception.KeyAlreadyExists;
+import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.model.User;
 import com.dio.tqi.apibanco.exception.UserAlreadyExist;
 import com.dio.tqi.apibanco.mapper.UserMapper;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -32,8 +35,11 @@ public class UserResource {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Message> addPixKey(@RequestBody @Valid PixKeyDTORequest dtoRequest) {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Message> addPixKey(@RequestBody @Valid PixKeyDTORequest dtoRequest,
+                                             @PathVariable String id,
+                                             HttpServletRequest request) throws KeyAlreadyExists, NotFound {
+        Message message = service.addPixKey(id, dtoRequest, request);
+        return ResponseEntity.ok(message);
     }
 
 

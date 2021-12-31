@@ -9,4 +9,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class Message {
     private String message;
+    private String other;
 }

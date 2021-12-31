@@ -1,6 +1,7 @@
 package com.dio.tqi.apibanco.service;
 
 import com.dio.tqi.apibanco.data.LoginData;
+import com.dio.tqi.apibanco.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -20,13 +21,13 @@ public class TokenService {
 
 
 
-    public String generateToken(LoginData loginData) {
+    public String generateToken(User user) {
         Key KEY = Keys.hmacShaKeyFor(secret.getBytes());
         Date now = new Date();
         Date exp = new Date(now.getTime() + Long.parseLong(expiration));
         return Jwts.builder()
                 .setIssuer("API Banco")
-                .setSubject(loginData.getUsername())
+                .setSubject(user.getId())
                 .setIssuedAt(new Date())
                 .setExpiration(exp)
                 .signWith(KEY).compact();
