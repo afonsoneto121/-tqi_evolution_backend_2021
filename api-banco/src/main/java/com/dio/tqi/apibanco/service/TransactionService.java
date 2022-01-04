@@ -21,7 +21,7 @@ public class TransactionService {
     private final UserService userService;
     private final StreamBridge streamBridge;
 
-    @Value("{api.bank.name}")
+    @Value("${api.bank.name}")
     private String bank;
     public Transaction save(Transaction transaction) {
         //Add Authorization

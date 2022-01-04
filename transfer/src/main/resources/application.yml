@@ -25,7 +25,7 @@ spring:
           useNativeEncoding: true
         consumer:
           useNativeEncoding: true
-      function.definition: transactionInit;userFound
+      function.definition: transactionInit;userFound;transactionFinished
       default-binder: kafka
       kafka:
         binder:
@@ -50,6 +50,11 @@ spring:
           destination: streaming.pix.transaction.created
           contentType: application/*+avro
           producer:
+            use-native-encoding: true
+        transactionFinished-in-0:
+          destination: streaming.pix.transaction.finished
+          contentType: application/*+avro
+          consumer:
             use-native-encoding: true
         userFind-out-0:
           destination: streaming.pix.user.find

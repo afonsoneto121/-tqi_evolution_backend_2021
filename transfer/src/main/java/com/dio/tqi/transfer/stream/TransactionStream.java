@@ -1,8 +1,10 @@
 package com.dio.tqi.transfer.stream;
 
-import com.dio.tqi.transfer.mapper.CacheUserMapper;
+import com.dio.tqi.transfer.mapper.TransactionMapper;
 import com.dio.tqi.transfer.model.CacheUser;
+import com.dio.tqi.transfer.model.Transaction;
 import com.dio.tqi.transfer.service.CacheUserService;
+import com.dio.tqi.transfer.service.TransactionService;
 import com.example.transfer.schema.TransactionAvro;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.stream.function.StreamBridge;
@@ -19,7 +21,8 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class TransactionStream {
     private final CacheUserService cacheUserService;
-    private final CacheUserMapper mapper;
+    private final TransactionService transactionService;
+    private final TransactionMapper mapper;
 
     private final StreamBridge streamBridge;
 
@@ -46,6 +49,14 @@ public class TransactionStream {
                     .build();
             cacheUserService.save(user);
             return input;
+        });
+    }
+
+    @Bean
+    public Consumer<TransactionAvro> transactionFinished() {
+        return (input -> {
+            Transaction transaction = mapper.avroToModel(input);
+            transactionService.save(transaction);
         });
     }
 }
