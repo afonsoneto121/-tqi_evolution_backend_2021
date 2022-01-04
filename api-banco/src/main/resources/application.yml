@@ -15,3 +15,67 @@ spring:
       database: transaction
       port: 27017
       host: localhost
+  cloud:
+    stream:
+      function.definition: transactionCreated;transactionProcess;userFind
+      default-binder: kafka
+      kafka:
+        binder:
+          producer-properties:
+            key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            schema.registry.url: http://localhost:8081
+          consumer-properties:
+            key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://localhost:8081
+            specific.avro.reader: true
+          default:
+            producer:
+              useNativeEncoding: true
+            consumer:
+              useNativeEncoding: true
+          autoCreateTopics: true
+          brokers: localhost:9092
+
+      bindings:
+        transactionInit-out-0:
+          destination: streaming.pix.transaction.init
+          contentType: application/*+avro
+          producer:
+            use-native-encoding: true
+        transactionCreated-in-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        transactionCreated-out-0:
+          destination: streaming.pix.transaction.process
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        transactionProcess-in-0:
+          destination: streaming.pix.transaction.process
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        transactionProcess-out-0:
+          destination: streaming.pix.transaction.finished
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        userFind-in-0:
+          destination: streaming.pix.user.find
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        userFind-out-0:
+          destination: streaming.pix.user.found
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081

@@ -18,5 +18,4 @@ public class UserMapper {
     public UserDTOResponse userToDTOResponse(User user) {
         return objectMapper.convertValue(user, UserDTOResponse.class);
     }
-
 }

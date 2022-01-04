@@ -1,0 +1,73 @@
+server.port: 9000
+# DATASOURCE
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/api-pix
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  # Kafka
+  cloud:
+    stream:
+      default:
+        producer:
+          useNativeEncoding: true
+        consumer:
+          useNativeEncoding: true
+      function.definition: transactionInit;userFound
+      default-binder: kafka
+      kafka:
+        binder:
+          producer-properties:
+            key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+            schema.registry.url: http://localhost:8081
+          consumer-properties:
+            key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+            schema.registry.url: http://localhost:8081
+            specific.avro.reader: true
+          autoCreateTopics: true
+          brokers: localhost:9092
+      bindings:
+        transactionInit-in-0:
+          destination: streaming.pix.transaction.init
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        transactionInit-out-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          producer:
+            use-native-encoding: true
+        userFind-out-0:
+          destination: streaming.pix.user.find
+          contentType: application/*+avro
+          producer:
+            use-native-encoding: true
+        userFound-in-0:
+          destination: streaming.pix.user.found
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        userFound-out-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          producer:
+            use-native-encoding: true
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: http://localhost:8081

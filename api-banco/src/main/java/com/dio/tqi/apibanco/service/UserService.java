@@ -17,7 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.NotAuthorizedException;
+//import javax.ws.rs.NotAuthorizedException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +49,13 @@ public class UserService {
         return byId.orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
+    public Optional<User> findUserByKey(String key) {
+        if (repository.findByKey(key).isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(repository.findByKey(key).get(0));
+        }
+    }
     private Optional<User> findUserAlreadyExist(String email) {
         Example<User> example = Example.of(User.builder().email(email).build());
         return repository.findOne(example);
@@ -85,7 +92,8 @@ public class UserService {
     private void authorizedUser(HttpServletRequest request, String idUser) {
         String token = getTokenFromHeader(request);
         if (!verifyIfUserIsAuthorized(token, idUser)) {
-            throw new NotAuthorizedException("User not authorized");
+            //throw new NotAuthorizedException("User not authorized");
+
         }
 
     }
@@ -147,4 +155,23 @@ public class UserService {
         }).collect(Collectors.toList());
     }
 
+    public boolean userHasBalance(float value, String key) {
+        List<User> byKey = repository.findByKey(key);
+        User user = byKey.get(0);
+        if(user.getBalance() >= value) {
+            user.setBalance(user.getBalance() - value);
+            repository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public void transferValue(float value, String pixKeyReceiver) {
+        List<User> byKey = repository.findByKey(pixKeyReceiver);
+        User user = byKey.get(0);
+        if(user.getBalance() >= value) {
+            user.setBalance(user.getBalance() + value);
+            repository.save(user);
+        }
+    }
 }
