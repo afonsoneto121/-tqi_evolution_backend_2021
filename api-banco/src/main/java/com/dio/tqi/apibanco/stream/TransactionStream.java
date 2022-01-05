@@ -1,6 +1,5 @@
 package com.dio.tqi.apibanco.stream;
 
-import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.model.User;
 import com.dio.tqi.apibanco.service.TransactionService;
 import com.dio.tqi.apibanco.service.UserService;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @Component
 @RequiredArgsConstructor
@@ -32,11 +30,13 @@ public class TransactionStream {
     public Consumer<TransactionAvro> transactionCreated() {
         return input -> {
             if (input != null && input.getBankNameReceiver().equals(bank)) {
-                userService.transferValue(input.getValue(),input.getPixKeyReceiver());
+                userService.receiverValue(input.getValue(),input.getPixKeyReceiver());
                 input.setProcessed(true);
                 input.setStatus(true);
                 Message<TransactionAvro> message = MessageBuilder.withPayload(input).build();
                 streamBridge.send("transactionCreated-out-0",message);
+            } if (input != null && input.getBankNameSender().equals(bank)) {
+                userService.sendValue(input.getValue(),input.getPixKeySender());
             }
         };
     }
@@ -45,7 +45,6 @@ public class TransactionStream {
     public Consumer<TransactionAvro> transactionProcess() {
         return input -> {
             if (input != null && input.getBankNameReceiver().equals(bank)) {
-                //Call notification microservice
                 Message<TransactionAvro> message = MessageBuilder.withPayload(input).build();
                 streamBridge.send("transactionProcess-out-0",message);
             }

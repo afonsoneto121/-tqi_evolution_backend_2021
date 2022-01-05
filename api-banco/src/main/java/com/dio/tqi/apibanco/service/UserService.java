@@ -148,20 +148,20 @@ public class UserService {
     public boolean userHasBalance(float value, String key) {
         List<User> byKey = repository.findByKey(key);
         User user = byKey.get(0);
-        if (user.getBalance() >= value) {
-            user.setBalance(user.getBalance() - value);
-            repository.save(user);
-            return true;
-        }
-        return false;
+        return user.getBalance() >= value;
     }
 
-    public void transferValue(float value, String pixKeyReceiver) {
+    public void receiverValue(float value, String pixKeyReceiver) {
         List<User> byKey = repository.findByKey(pixKeyReceiver);
         User user = byKey.get(0);
-        if (user.getBalance() >= value) {
-            user.setBalance(user.getBalance() + value);
-            repository.save(user);
-        }
+        user.setBalance(user.getBalance() + value);
+        repository.save(user);
+    }
+
+    public void sendValue(float value, String pixKeySender) {
+        List<User> byKey = repository.findByKey(pixKeySender);
+        User user = byKey.get(0);
+        user.setBalance(user.getBalance() - value);
+        repository.save(user);
     }
 }
