@@ -2,6 +2,7 @@ package com.dio.tqi.apibanco.resources.advice;
 
 import com.dio.tqi.apibanco.dto.Message;
 import com.dio.tqi.apibanco.exception.KeyAlreadyExists;
+import com.dio.tqi.apibanco.exception.NotAuthorizedException;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.exception.UserAlreadyExist;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class UserResourceAdvice {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    //@ExceptionHandler(NotAuthorizedException.class)
+    @ExceptionHandler(NotAuthorizedException.class)
     public Message userNotAuthorized() {
         return Message.builder().message("Resource protected").build();
     }

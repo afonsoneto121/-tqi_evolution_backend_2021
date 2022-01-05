@@ -2,6 +2,7 @@ package com.dio.tqi.apibanco.resources;
 
 import com.dio.tqi.apibanco.dto.request.TransactionDTORequest;
 import com.dio.tqi.apibanco.dto.response.TransactionDTOResponse;
+import com.dio.tqi.apibanco.exception.NotAuthorizedException;
 import com.dio.tqi.apibanco.model.Transaction;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.mapper.TransactionMapper;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
@@ -23,10 +25,10 @@ public class TransactionResource {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TransactionDTOResponse saveTransaction(@RequestBody @Valid TransactionDTORequest dtoRequest) {
+    public TransactionDTOResponse saveTransaction(@RequestBody @Valid TransactionDTORequest dtoRequest, HttpServletRequest request) throws NotAuthorizedException {
         log.info("Saving new transaction ", dtoRequest);
         Transaction transactionToSave = transactionMapper.DTORequestToModel(dtoRequest);
-        return transactionMapper.ModelToDTOResponse(service.save(transactionToSave));
+        return transactionMapper.ModelToDTOResponse(service.save(transactionToSave, request));
     }
     @GetMapping
     public TransactionDTOResponse findById(@RequestParam String id) throws NotFound {

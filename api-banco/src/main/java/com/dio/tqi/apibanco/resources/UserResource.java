@@ -6,6 +6,7 @@ import com.dio.tqi.apibanco.dto.request.UserDTORequest;
 import com.dio.tqi.apibanco.dto.response.StatusKeyDTOResponse;
 import com.dio.tqi.apibanco.dto.response.UserDTOResponse;
 import com.dio.tqi.apibanco.exception.KeyAlreadyExists;
+import com.dio.tqi.apibanco.exception.NotAuthorizedException;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.model.User;
 import com.dio.tqi.apibanco.exception.UserAlreadyExist;
@@ -39,7 +40,7 @@ public class UserResource {
     @PatchMapping("/{id}")
     public ResponseEntity<Message> addPixKey(@RequestBody @Valid PixKeyDTORequest dtoRequest,
                                              @PathVariable String id,
-                                             HttpServletRequest request) throws KeyAlreadyExists, NotFound {
+                                             HttpServletRequest request) throws KeyAlreadyExists, NotFound, NotAuthorizedException {
         Message message = service.addPixKey(id, dtoRequest, request);
         return ResponseEntity.ok(message);
     }
@@ -47,7 +48,7 @@ public class UserResource {
     @GetMapping("/{id}/keys/{keys}")
     public ResponseEntity<List<StatusKeyDTOResponse>> statusKeys(@PathVariable String id,
                                                            @PathVariable List<String> keys,
-                                                           HttpServletRequest request) {
+                                                           HttpServletRequest request) throws NotAuthorizedException {
         List<StatusKeyDTOResponse> responses = service.statusKeys(id, keys, request);
         return ResponseEntity.ok(responses);
     }

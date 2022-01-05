@@ -1,8 +1,10 @@
 package com.dio.tqi.apibanco.service;
 
+import com.dio.tqi.apibanco.exception.NotAuthorizedException;
 import com.dio.tqi.apibanco.model.Transaction;
 import com.dio.tqi.apibanco.exception.NotFound;
 import com.dio.tqi.apibanco.repository.TransactionRepository;
+import com.dio.tqi.apibanco.util.SecurityUtil;
 import com.example.transfer.schema.TransactionAvro;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +14,8 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,11 +24,11 @@ public class TransactionService {
     private final TransactionRepository repository;
     private final UserService userService;
     private final StreamBridge streamBridge;
-
+    private final SecurityUtil securityUtil;
     @Value("${api.bank.name}")
     private String bank;
-    public Transaction save(Transaction transaction) {
-        //Add Authorization
+    public Transaction save(Transaction transaction, HttpServletRequest request) throws NotAuthorizedException {
+        securityUtil.authorizedUser(request, transaction);
         boolean hasBalance = userService.userHasBalance(transaction.getValue(), transaction.getKeyPixSender());
         transaction.setProcessed(false);
         transaction.setStatus(hasBalance);

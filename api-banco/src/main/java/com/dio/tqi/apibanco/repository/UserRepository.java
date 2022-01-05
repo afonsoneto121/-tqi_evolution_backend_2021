@@ -9,4 +9,6 @@ import java.util.List;
 public interface UserRepository extends MongoRepository<User, String> {
     @Query(" {'pixKey.key' : ?0 }")
     List<User> findByKey(String keyName);
+    @Query(" {'email' : ?0 }")
+    List<User> findByEmail(String email);
 }
