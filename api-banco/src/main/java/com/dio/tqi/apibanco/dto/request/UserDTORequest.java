@@ -14,4 +14,7 @@ public class UserDTORequest {
     private String email;
     @NotBlank
     private String password;
+
+    private float balance;
+
 }

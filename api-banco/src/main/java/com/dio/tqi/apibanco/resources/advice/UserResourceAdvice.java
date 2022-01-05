@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.ws.rs.NotAuthorizedException;
+
 
 @RestControllerAdvice
 public class UserResourceAdvice {
@@ -26,7 +26,7 @@ public class UserResourceAdvice {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(NotAuthorizedException.class)
+    //@ExceptionHandler(NotAuthorizedException.class)
     public Message userNotAuthorized() {
         return Message.builder().message("Resource protected").build();
     }

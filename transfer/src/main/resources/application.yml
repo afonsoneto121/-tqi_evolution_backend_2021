@@ -1,23 +1,31 @@
-server.port: ${PORT:8085}
-jwt:
-  secret: ${JWT_SECRET:43w11jzJHUOspQya0%2fd1Qg%3d%3d5by4Big0bkeRbAm54MN2ZA%3d%3d}
-  #expiration: ${JWT_EXPIRATION:1200000}
-  expiration: 582222222351684
-api:
-  bank:
-    name: ${NAME:Banco A}
+server.port: 9000
+# DATASOURCE
 spring:
-  data:
-    mongodb:
-      authentication-database: admin
-      username: root
-      password: root
-      database: transaction
-      port: ${PORT_DATABASE:27017}
-      host: ${HOST_DATABASE:localhost}
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/api-pix}
+    driver-class-name: org.postgresql.Driver
+    username: admin
+    password: admin
+  # JPA
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  # Kafka
   cloud:
     stream:
-      function.definition: transactionCreated;transactionProcess;userFind
+      default:
+        producer:
+          useNativeEncoding: true
+        consumer:
+          useNativeEncoding: true
+      function.definition: transactionInit;userFound;transactionFinished
       default-binder: kafka
       kafka:
         binder:
@@ -30,52 +38,41 @@ spring:
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
             specific.avro.reader: true
-          default:
-            producer:
-              useNativeEncoding: true
-            consumer:
-              useNativeEncoding: true
           autoCreateTopics: true
           brokers: ${KAFKA_URL:localhost:9092}
-
       bindings:
-        transactionInit-out-0:
+        transactionInit-in-0:
           destination: streaming.pix.transaction.init
+          contentType: application/*+avro
+          consumer:
+            use-native-encoding: true
+        transactionInit-out-0:
+          destination: streaming.pix.transaction.created
           contentType: application/*+avro
           producer:
             use-native-encoding: true
-        transactionCreated-in-0:
-          destination: streaming.pix.transaction.created
-          contentType: application/*+avro
-          consumer:
-            use-native-encoding: true
-        transactionCreated-out-0:
-          destination: streaming.pix.transaction.process
-          contentType: application/*+avro
-          consumer:
-            use-native-encoding: true
-        transactionProcess-in-0:
-          destination: streaming.pix.transaction.process
-          contentType: application/*+avro
-          consumer:
-            use-native-encoding: true
-        transactionProcess-out-0:
+        transactionFinished-in-0:
           destination: streaming.pix.transaction.finished
           contentType: application/*+avro
           consumer:
             use-native-encoding: true
-        userFind-in-0:
+        userFind-out-0:
           destination: streaming.pix.user.find
           contentType: application/*+avro
-          consumer:
+          producer:
             use-native-encoding: true
-        userFind-out-0:
+        userFound-in-0:
           destination: streaming.pix.user.found
           contentType: application/*+avro
           consumer:
+            use-native-encoding: true
+        userFound-out-0:
+          destination: streaming.pix.transaction.created
+          contentType: application/*+avro
+          producer:
             use-native-encoding: true
   kafka:
     properties:
       schema:
         registry:
-          url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
+          url: http://localhost:8081

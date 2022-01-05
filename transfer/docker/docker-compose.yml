@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  database-api-pix:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: api-pix
+    container_name: api-pix
+    ports:
+      - 5432:5432
+    volumes:
+      - /home/afonso/.volumes/dio-tqi/Postgresql/data:/var/lib/postgresql/data
+    networks:
+      - postgres-network
+  pgadmin4:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "afonsoneto121@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "54321:80"
+    depends_on:
+      - database-api-pix
+    networks:
+      - postgres-network
+networks:
+  postgres-network:
+    driver: bridge
