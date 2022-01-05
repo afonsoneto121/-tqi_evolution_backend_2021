@@ -36,11 +36,47 @@ Documentação da API está disponível [aqui](https://github.com/afonsoneto121/
 
 ## Como executar o projeto
 
- Para executar o projeto é necessário ter instalado localmente o docker, docker-compose e Java na versão 16.
- O primeiro passo é baixar o repositório 
+ Para executar o projeto é necessário ter instalado localmente o docker, docker-compose e Java na versão 16. 
+
+* O primeiro passo é baixar o repositório 
+
  ```sh
  git clone https://github.com/afonsoneto121/-tqi_evolution_backend_2021.git
  ```
+
+* Iniciar os contêineres
+
+```sh
+chmod +x init.sh && ./init.sh
+```
+
+:arrow_right: Esse comando pode levar alguns minutos para ser concluído
+
+* Compilar os serviços
+
+```sh
+cd build && \
+chmod +x build.sh init_app_1.sh init_app_2.sh init_transfer.sh && \
+./build.sh
+```
+
+Antes de iniciar os serviços é necessário verificar se todos os contêineres subiram corretamente. Para isso abra o navegador e entre em  http://localhost:9021/ para monitorar o Apache Kafka, a pagina deverá ser carregada com 1 Healthy clusters. Em seguida http://localhost:8082/ para abrir o mongo express e monitorar a API-Banco o login e senha padrão são respectivamente afneto e admin. Por último http://localhost:54321/ para abrir o pgadmin e monitorar o serviço tansfer o login e senha padrão são respectivamente afonsoneto121@gmail.com e admin.
+
+Após a verificação dos contêineres iniciar os três serviços( 2 instâncias de API-Banco e 1 instância de transfer). Em três terminais diferentes navegue até o diretório tqi_evolution_backend_2021/build e digite em cada terminal.
+
+```sh
+./init_app_1.sh
+```
+
+```sh
+./init_app_2.sh
+```
+
+```sh
+./init_transfer.sh
+```
+
+Para uma demostração de funcionamento veja a [documentação](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/DOCUMENTATION.md) ou [exemplos](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/EXAMPLE.md).
 
 ## Em Desenvolvimento
 
