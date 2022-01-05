@@ -1,5 +1,5 @@
 # tqi_evolution_backend_2021
-Projeto desenvolvido para simular um sistema de pagamento semelhando ao PIX utilizando microsserviços e comunicação assíncrona. 
+Projeto desenvolvido para simular um sistema de pagamento semelhante ao PIX utilizando microsserviços e comunicação assíncrona. 
 
 ## Sobre o Projeto
 
@@ -13,6 +13,7 @@ Projeto desenvolvido para simular um sistema de pagamento semelhando ao PIX util
 
 A arquitetura do projeto é dividida em uma ou mais instâncias de API-banco, uma instância de Transfer e um serviço Apache Kafka executando com o Schema Registry
 
+![img01](https://media.discordapp.net/attachments/928309890420736074/928317804686479370/Diagrama_em_branco_1.png?width=960&height=416)
 
 
 ## Tecnologias Utilizadas
@@ -31,11 +32,15 @@ A arquitetura do projeto é dividida em uma ou mais instâncias de API-banco, um
 
 ## Documentação
 
-Documentação da API está disponível [aqui]()
+Documentação da API está disponível [aqui](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/DOCUMENTATION.md)
 
 ## Como executar o projeto
 
-
+ Para executar o projeto é necessário ter instalado localmente o docker, docker-compose e Java na versão 16.
+ O primeiro passo é baixar o repositório 
+ ```sh
+ git clone https://github.com/afonsoneto121/-tqi_evolution_backend_2021.git
+ ```
 
 ## Em Desenvolvimento
 
