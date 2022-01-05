@@ -76,7 +76,9 @@ Após a verificação dos contêineres iniciar os três serviços( 2 instâncias
 ./init_transfer.sh
 ```
 
-Para uma demostração de funcionamento veja a [documentação](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/DOCUMENTATION.md) ou [exemplos](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/EXAMPLE.md).
+Os serviços irão iniciar em http://localhost:3030/, http://localhost:3031/ e http://localhost:9000/.
+
+Para mais detelhes de funcionamento veja a [documentação](https://github.com/afonsoneto121/-tqi_evolution_backend_2021/blob/main/DOCUMENTATION.md).
 
 ## Em Desenvolvimento
 
