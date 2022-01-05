@@ -13,8 +13,8 @@ spring:
       username: root
       password: root
       database: transaction
-      port: ${JWT_EXPIRATION:27017}
-      host: localhost
+      port: ${PORT_DATABASE:27017}
+      host: ${HOST_DATABASE:localhost}
   cloud:
     stream:
       function.definition: transactionCreated;transactionProcess;userFind
@@ -24,11 +24,11 @@ spring:
           producer-properties:
             key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-            schema.registry.url: http://localhost:8081
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
           consumer-properties:
             key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-            schema.registry.url: http://localhost:8081
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
             specific.avro.reader: true
           default:
             producer:
@@ -36,7 +36,7 @@ spring:
             consumer:
               useNativeEncoding: true
           autoCreateTopics: true
-          brokers: localhost:9092
+          brokers: ${KAFKA_URL:localhost:9092}
 
       bindings:
         transactionInit-out-0:
@@ -78,4 +78,4 @@ spring:
     properties:
       schema:
         registry:
-          url: http://localhost:8081
+          url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}

@@ -2,7 +2,7 @@ server.port: 9000
 # DATASOURCE
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/api-pix
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/api-pix}
     driver-class-name: org.postgresql.Driver
     username: admin
     password: admin
@@ -32,14 +32,14 @@ spring:
           producer-properties:
             key.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
             value.serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-            schema.registry.url: http://localhost:8081
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
           consumer-properties:
             key.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
             value.deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-            schema.registry.url: http://localhost:8081
+            schema.registry.url: ${SCHEMA_REGISTRY_URL:http://localhost:8081}
             specific.avro.reader: true
           autoCreateTopics: true
-          brokers: localhost:9092
+          brokers: ${KAFKA_URL:localhost:9092}
       bindings:
         transactionInit-in-0:
           destination: streaming.pix.transaction.init

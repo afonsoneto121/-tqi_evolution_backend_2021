@@ -68,5 +68,6 @@ avro {
 }
 
 generateAvroJava {
+	doFirst {build}
 	source 'src/main/resources/avro'
 }
