@@ -48,6 +48,7 @@ public class TransactionStream {
                     .pixKey(input.getPixKeyReceiver())
                     .build();
             cacheUserService.save(user);
+            input.setBankNameReceiver(user.getBank());
             return input;
         });
     }
