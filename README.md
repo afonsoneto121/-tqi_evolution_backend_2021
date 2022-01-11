@@ -1,4 +1,4 @@
-# tqi_evolution_backend_2021
+# api-pix-advanced
 Projeto desenvolvido para simular um sistema de pagamento semelhante ao PIX utilizando microsserviços e comunicação assíncrona. 
 
 ## Sobre o Projeto
